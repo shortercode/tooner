@@ -2,9 +2,34 @@
 class Vector {
 
 	constructor (x, y, z) {
-		this.x = x || 0;
-		this.y = y || 0;
-		this.z = z || 0;
+		this._elements = new Float32Array(3);
+		this._elements[0] = x || 0;
+		this._elements[1] = y || 0;
+		this._elements[2] = z || 0;
+	}
+
+	get x () {
+		return this._elements[0];
+	}
+
+	set x (v) {
+		return this._elements[0] = v;
+	}
+
+	get y () {
+		return this._elements[1];
+	}
+
+	set y (v) {
+		return this._elements[1] = v;
+	}
+
+	get z () {
+		return this._elements[2];
+	}
+
+	set z (v) {
+		return this._elements[2] = v;
 	}
 
 	clone () {
@@ -250,17 +275,8 @@ class Vector {
 		return this;
 	}
 
-	toArray (array, offset) {
-		if (array === undefined) {
-			array = [];
-		}
-		if (offset === undefined) {
-			offset = 0;
-		}
-		array[offset] = this.x;
-		array[offset + 1] = this.y;
-		array[offset + 2] = this.z;
-		return array;
+	toArray () {
+		return this._elements;
 	}
 
 	applyMatrix (m) {

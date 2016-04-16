@@ -4,9 +4,16 @@ class vertexAttribPointer {
     this.VERTICES = null;
     this.INDICES = null;
 		this.INDEX_COUNT = 0;
+		this.DIFFUSE_COLOR = vec3.create();
+		this.SPECULAR_COLOR = vec3.create();
+		this.AMBIENT_COLOR = vec3.create();
+		this.OUTLINE_WIDTH = 0.02;
+		this.OUTLINE_COLOR = vec3.create();
+		this.position = vec3.create();
+		this.rotation = quat.create();
     this.VERTEX_BUFFER = GL.createBuffer();
     this.INDEX_BUFFER = GL.createBuffer();
-		this.MODEL_VIEW_MATRIX = new Matrix();
+		this.MODEL_VIEW_MATRIX = mat4.create();
     this.setVertices( vertices );
     this.setIndices( indices );
   }
@@ -24,6 +31,9 @@ class vertexAttribPointer {
     GL.bufferData( GL.ELEMENT_ARRAY_BUFFER, indices, GL.STATIC_DRAW );
 		GL.bindBuffer( GL.ELEMENT_ARRAY_BUFFER, null);
   }
+	updateMatrix() {
+		
+	}
 	draw(SHADER) {
 		const GL = this.CONTEXT;
 		SHADER.bind(this.VERTEX_BUFFER, this.INDEX_BUFFER);

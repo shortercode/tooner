@@ -13,10 +13,10 @@ const OUTLINE_VERT_SHADER_SOURCE = `
 	}`;
 const OUTLINE_FRAG_SHADER_SOURCE = `
 	precision mediump float;
-	uniform vec4 u_color;
+	uniform vec3 u_color;
 
 	void main() {
-		gl_FragColor = u_color;
+		gl_FragColor = vec4(u_color, 1.0);
 	}`;
 const CEL_VERT_SHADER_SOURCE = `
 	precision mediump float;
@@ -88,7 +88,6 @@ const CEL_FRAG_SHADER_SOURCE = `
 
 		gl_FragColor = vec4(color, 1.0);
 	}`;
-
 class Shader {
   constructor( GL, vertexShaderSource, fragmentShaderSource ) {
     // Create Fragment Shader
@@ -146,6 +145,29 @@ class Shader {
   set( uniformName, value ) {
     const GL = this.CONTEXT;
     const UNIFORM = this.UNIFORMS.get( uniformName );
+    const L = value.length;
+    switch ( L ) {
+      case 1:
+        // float
+        this.PROGRAM.setUniform1f( GL, uniformName, UNIFORM );
+        break;
+      case 3:
+        // vector3
+        this.PROGRAM.setUniform3fv( GL, uniformName, UNIFORM );
+        break;
+      case 4:
+        // vector4
+        this.PROGRAM.setUniform4fv( GL, uniformName, UNIFORM );
+        break;
+      case 9:
+        // mat3
+        this.PROGRAM.setUniformMatrix3fv( GL, uniformName, UNIFORM );
+        break;
+      case 16:
+        // mat4
+        this.PROGRAM.setUniformMatrix4fv( GL, uniformName, UNIFORM );
+        break;
+    }
   }
   bind( vertexBuffer, indexBuffer ) {
     const GL = this.CONTEXT;
